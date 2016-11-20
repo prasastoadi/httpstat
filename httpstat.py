@@ -25,7 +25,8 @@ if PY3:
     xrange = range
 
 
-# Env class is copied from https://github.com/reorx/getenv/blob/master/getenv.py
+# Env class is copied from
+# https://github.com/reorx/getenv/blob/master/getenv.py
 class Env(object):
     prefix = 'HTTPSTAT'
     _instances = []
@@ -84,7 +85,8 @@ http_template = """
 """[1:]
 
 
-# Color code is copied from https://github.com/reorx/python-terminal-color/blob/master/color_simple.py
+# Color code is copied from
+# https://github.com/reorx/python-terminal-color/blob/master/color_simple.py
 ISATTY = sys.stdout.isatty()
 
 
@@ -171,7 +173,8 @@ def main():
     lg = logging.getLogger('httpstat')
 
     # log envs
-    lg.debug('Envs:\n%s', '\n'.join('  {}={}'.format(i.key, i.get('')) for i in Env._instances))
+    lg.debug('Envs:\n%s', '\n'.join('  {}={}'.format(i.key, i.get(''))
+                                    for i in Env._instances))
     lg.debug('Flags: %s', dict(
         show_body=show_body,
         show_ip=show_ip,
@@ -215,10 +218,12 @@ def main():
     cmd_env.update(
         LC_ALL='C',
     )
-    cmd_core = [curl_bin, '-w', curl_format, '-D', headerf.name, '-o', bodyf.name, '-s', '-S']
+    cmd_core = [curl_bin, '-w', curl_format, '-D',
+                headerf.name, '-o', bodyf.name, '-s', '-S']
     cmd = cmd_core + curl_args + [url]
     lg.debug('cmd: %s', cmd)
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=cmd_env)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE, env=cmd_env)
     out, err = p.communicate()
     if PY3:
         out, err = out.decode(), err.decode()
@@ -241,7 +246,8 @@ def main():
         d = json.loads(out)
     except ValueError as e:
         print(yellow('Could not decode json: {}'.format(e)))
-        print('curl result:', p.returncode, grayscale[16](out), grayscale[16](err))
+        print('curl result:', p.returncode,
+              grayscale[16](out), grayscale[16](err))
         quit(None, 1)
     for k in d:
         if k.startswith('time_'):
@@ -292,7 +298,8 @@ def main():
         if body_len > body_limit:
             print(body[:body_limit] + cyan('...'))
             print()
-            s = '{} is truncated ({} out of {})'.format(green('Body'), body_limit, body_len)
+            s = '{} is truncated ({} out of {})'.format(
+                green('Body'), body_limit, body_len)
             if save_body:
                 s += ', stored in: {}'.format(bodyf.name)
             print(s)

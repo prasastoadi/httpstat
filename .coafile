@@ -1,0 +1,7 @@
+[Spacing]
+files = *.py
+bears = SpaceConsistencyBear
+use_spaces = True
+[PyLintBear]
+files = *.py
+bears = PEP8Bear
